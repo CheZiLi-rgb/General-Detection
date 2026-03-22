@@ -1,0 +1,13 @@
+model: 'Group_Mamba'
+tuning_mode: 'sft'
+task: 'many2many'
+
+save_dir: './results/ST_Mamba_2'
+
+max_epoch: 10
+bath_per_epoch: 4000
+
+train_batch_size: 10
+val_batch_size: 10
+num_workers: 40
+lr: 0.000001
