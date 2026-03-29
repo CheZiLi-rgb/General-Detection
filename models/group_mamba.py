@@ -14,17 +14,17 @@ from einops import rearrange
 
 try:
     from .ss2d import SS2D
-    from .csms6s import CrossScan_1, CrossScan_2, CrossScan_3, CrossScan_4
-    from .csms6s import CrossMerge_1, CrossMerge_2, CrossMerge_3, CrossMerge_4
+    from .csms6s import CrossScan_1, CrossScan_2
+    from .csms6s import CrossMerge_1, CrossMerge_2
 except:
     from ss2d import SS2D
-    from csms6s import CrossScan_1, CrossScan_2, CrossScan_3, CrossScan_4
-    from csms6s import CrossMerge_1, CrossMerge_2, CrossMerge_3, CrossMerge_4
+    from csms6s import CrossScan_1, CrossScan_2
+    from csms6s import CrossMerge_1, CrossMerge_2
 
 try:
     from ss2d import SS2D
-    from csms6s import CrossScan_1, CrossScan_2, CrossScan_3, CrossScan_4
-    from csms6s import CrossMerge_1, CrossMerge_2, CrossMerge_3, CrossMerge_4
+    from csms6s import CrossScan_1, CrossScan_2
+    from csms6s import CrossMerge_1, CrossMerge_2
 
 
     class PVT2FFN(nn.Module):
@@ -86,8 +86,6 @@ class DynamicGroupMambaLayer(nn.Module):
         dim_per_group = input_dim // 2
         self.mamba_g1 = SS2D(d_model=dim_per_group, d_state=d_state, ssm_ratio=expand, d_conv=d_conv)
         self.mamba_g2 = SS2D(d_model=dim_per_group, d_state=d_state, ssm_ratio=expand, d_conv=d_conv)
-        self.mamba_g3 = SS2D(d_model=dim_per_group, d_state=d_state, ssm_ratio=expand, d_conv=d_conv)
-        self.mamba_g4 = SS2D(d_model=dim_per_group, d_state=d_state, ssm_ratio=expand, d_conv=d_conv)
 
         # 通道交互模块 (Channel Affinity / Modulation)
         self.channel_interaction = nn.Sequential(
@@ -117,10 +115,8 @@ class DynamicGroupMambaLayer(nn.Module):
 
         y1 = self.mamba_g1(x1, CrossScan=CrossScan_1, CrossMerge=CrossMerge_1)
         y2 = self.mamba_g2(x2, CrossScan=CrossScan_2, CrossMerge=CrossMerge_2)
-        y3 = self.mamba_g3(x3, CrossScan=CrossScan_3, CrossMerge=CrossMerge_3)
-        y4 = self.mamba_g4(x4, CrossScan=CrossScan_4, CrossMerge=CrossMerge_4)
 
-        y_cat = torch.cat([y1, y2, y3, y4], dim=-1)  # (B, H, W, C)
+        y_cat = torch.cat([y1, y2], dim=-1)  # (B, H, W, C)
         y_cat = y_cat.view(B, N, C)
 
         inv_idx_expanded = inv_idx.unsqueeze(1).expand(-1, N, -1)
@@ -215,7 +211,7 @@ class XCLIP_StemGroupMamba(nn.Module):
 
 if __name__ == '__main__':
     model = XCLIP_StemGroupMamba()
-    device = torch.device("cuda:4" if torch.cuda.is_available() else "cpu")
+    device = torch.device("cuda:5" if torch.cuda.is_available() else "cpu")
     print(f'Using device: {device}')
     model = model.to(device)
     dummy_input = torch.randn(4, 8, 3, 224, 224)

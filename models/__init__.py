@@ -1,1 +1,1 @@
-from .group_mamba import XCLIP_STMamba
+from .group_mamba import XCLIP_StemGroupMamba

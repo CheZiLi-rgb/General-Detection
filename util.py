@@ -8,8 +8,8 @@ import pandas as pd
 from sklearn.metrics import f1_score, accuracy_score, recall_score, precision_score, average_precision_score, roc_auc_score
 
 def build_model(model_name):
-    if model_name == 'ST_Mamba':
-        model = models.XCLIP_STMamba()
+    if model_name == 'Group_Mamba':
+        model = models.XCLIP_StemGroupMamba()
     return model
 
 def eval_model(cfg, model, val_loader, loss_ce, val_batch_size):

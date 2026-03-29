@@ -10,6 +10,7 @@ import cv2
 import math
 import warnings
 
+root_path = '/data1/lic/DeMamba-main/'
 
 def crop_center_by_percentage(image, percentage):
     height, width = image.shape[:2]
@@ -239,46 +240,26 @@ class Ours_Dataset_val(data.Dataset):
 def generate_dataset_loader(cfg):
 
     if cfg['task'] == 'normal':
-        df_val = pd.read_csv('Preprocess/GenVideo-100K/datasets/val_id.csv')
+        df_val = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/val_id.csv')
     elif cfg['task'] == 'robust_compress':
-        df_val = pd.read_csv('Preprocess/GenVideo-100K/datasets/com_28.csv')
+        df_val = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/com_28.csv')
     elif cfg['task'] == 'Image_Water_Attack':
-        df_val = pd.read_csv('Preprocess/GenVideo-100K/datasets/imgwater.csv')
+        df_val = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/imgwater.csv')
     elif cfg['task'] == 'Text_Water_Attack':
-        df_val = pd.read_csv('Preprocess/GenVideo-100K/datasets/textwater.csv')
+        df_val = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/textwater.csv')
     elif cfg['task'] == 'one2many':
-        df_val = pd.read_csv('Preprocess/GenVideo-100K/datasets/val_ood.csv')
+        df_val = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/val_ood.csv')
         if cfg['train_sub_set'] == 'pika':
-            df_train = pd.read_csv('Preprocess/GenVideo-100K/datasets/train_pika_plus_real.csv')
-            # prefixes = ["fake/pika", "real"]
-            # video_condition = df_train['content_path'].str.startswith(prefixes[0])
-            # for prefix in prefixes[1:]:
-            #     video_condition |= df_train['content_path'].str.startswith(prefix)
-            # df_train = df_train[video_condition]
+            df_train = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/train_pika_plus_real.csv')
         elif cfg['train_sub_set'] == 'SEINE':
-            # prefixes = ["fake/SEINE", "real"]
-            # video_condition = df_train['content_path'].str.startswith(prefixes[0])
-            # for prefix in prefixes[1:]:
-            #     video_condition |= df_train['content_path'].str.startswith(prefix)
-            # df_train = df_train[video_condition]
-            df_train = pd.read_csv('Preprocess/GenVideo-100K/datasets/train_seine_plus_real.csv')
+            df_train = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/train_seine_plus_real.csv')
         elif cfg['train_sub_set'] == 'OpenSora':
-            # prefixes = ["fake/OpenSora", "real"]
-            # video_condition = df_train['content_path'].str.startswith(prefixes[0])
-            # for prefix in prefixes[1:]:
-            #     video_condition |= df_train['content_path'].str.startswith(prefix)
-            # df_train = df_train[video_condition]
-            df_train = pd.read_csv('Preprocess/GenVideo-100K/datasets/train_opensora_plus_real.csv')
+            df_train = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/train_opensora_plus_real.csv')
         elif cfg['train_sub_set'] == 'Latte':
-            # prefixes = ["fake/Latte", "real"]
-            # video_condition = df_train['content_path'].str.startswith(prefixes[0])
-            # for prefix in prefixes[1:]:
-            #     video_condition |= df_train['content_path'].str.startswith(prefix)
-            # df_train = df_train[video_condition]
-            df_train = pd.read_csv('Preprocess/GenVideo-100K/datasets/train_latte_plus_real.csv')
+            df_train = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/train_latte_plus_real.csv')
     else:
-        df_train = pd.read_csv('Preprocess/GenVideo-100K/datasets/train.csv')
-        df_val = pd.read_csv('Preprocess/GenVideo-100K/datasets/val.csv')
+        df_train = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/train.csv')
+        df_val = pd.read_csv(root_path + 'Preprocess/GenVideo-100K/datasets/val.csv')
 
     df_train.reset_index(drop=True, inplace=True)
     df_val.reset_index(drop=True, inplace=True)

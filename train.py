@@ -14,7 +14,7 @@ from tqdm import tqdm
 def get_arguments():
     parser = argparse.ArgumentParser()
     # default='./configs_one2many/XCLIP_DeMamba.yaml'
-    parser.add_argument('--config', dest='config', help='settings of detector in yaml format')
+    parser.add_argument('--config', dest='config', default='./configs/Group_Mamba.yaml', help='settings of detector in yaml format')
     args = parser.parse_args()
 
     return args
